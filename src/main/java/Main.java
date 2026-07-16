@@ -3,6 +3,62 @@ import java.util.*;
 
 public class Main {
 
+    public static void runMenu(HashMap<String, ArrayList<Double>> income,
+                               HashMap<String, ArrayList<Double>> expenses, Scanner scanner) {
+        while (true) {
+            System.out.println("What would like you do? Please, press number: " +
+                    "\n1. Add Expenses" +
+                    "\n2. Add Income" +
+                    "\n3. Show summary" +
+                    "\n4. Exit");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+
+                case 1: {
+                    System.out.println("Enter a category of expense: ");
+                    String category = scanner.next().toLowerCase();
+                    double amount = getAmountFromUser(scanner, "Enter a amount of expense:  ");
+                    addExpenses(expenses, category, amount);
+                    break;
+                }
+
+                case 2: {
+                    System.out.println("Enter a category of income: ");
+                    String category = scanner.next().toLowerCase();
+                    double amount = getAmountFromUser(scanner, "Enter a amount of income:  ");
+                    addIncome(income, category, amount);
+                    break;
+                }
+
+                case 3: {
+                    System.out.println("Your summary: ");
+                    printSummary(income, expenses);
+                    break;
+                }
+
+                default:
+                    System.out.println("Ending of program");
+                    System.exit(0);
+            }
+        }
+    }
+
+    public static double getAmountFromUser(Scanner scanner, String message) {
+
+        System.out.println(message);
+        while (true) {
+            try {
+                double amount = scanner.nextDouble();
+                return amount;
+            } catch (InputMismatchException e) {
+                System.out.println("Wrong type! Please enter a number!");
+                scanner.nextLine();
+            }
+        }
+    }
+
     public static void addExpenses(HashMap<String, ArrayList<Double>> expenses,
                             String category, Double cost) {
 
@@ -73,63 +129,7 @@ public class Main {
         HashMap<String, ArrayList<Double>> expenses = new HashMap<>();
         Scanner scanner = new Scanner(System.in);
 
-        while (true) {
-            System.out.println("What would like you do? Please, press number: " +
-                    "\n1. Add Expenses" +
-                    "\n2. Add Income" +
-                    "\n3. Show summary" +
-                    "\n4. Exit");
-
-            int choice = scanner.nextInt();
-
-            switch (choice) {
-
-                case 1: {
-                    System.out.println("Enter a category of expense: ");
-                    String category = scanner.next().toLowerCase();
-                    System.out.println("Enter a amount of expense:  ");
-                    while (true) {
-                        try {
-                            double amount = scanner.nextDouble();
-                            addExpenses(expenses, category, amount);
-                            break;
-                        } catch (InputMismatchException e) {
-                            System.out.println("Wrong type! Please enter a number!");
-                            scanner.nextLine();
-                        }
-                    }
-                    break;
-                }
-
-                case 2: {
-                    System.out.println("Enter a category of income: ");
-                    String category = scanner.next().toLowerCase();
-                    System.out.println("Enter a amount of income: ");
-                    while (true) {
-                        try {
-                            double amount = scanner.nextDouble();
-                            addIncome(income, category, amount);
-                            break;
-                        } catch (InputMismatchException e) {
-                            System.out.println("Wrong type! Please enter a number!");
-                            scanner.nextLine();
-                        }
-                    }
-                    break;
-                }
-
-                case 3: {
-                    System.out.println("Your summary: ");
-                    printSummary(income, expenses);
-                    break;
-                }
-
-                default:
-                    System.out.println("Ending of program");
-                    System.exit(0);
-            }
-
-        }
+        runMenu(income, expenses, scanner);
 
     }
 }
