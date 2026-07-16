@@ -1,11 +1,12 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 
 public class Main {
 
-    public void addExpenses(HashMap<String, ArrayList<Double>> expenses,
+    public static void addExpenses(HashMap<String, ArrayList<Double>> expenses,
                             String category, Double cost) {
 
         if (expenses.containsKey(category)) {
@@ -17,7 +18,7 @@ public class Main {
         }
     }
 
-    public void addIncome(HashMap<String, ArrayList<Double>> income,
+    public static void addIncome(HashMap<String, ArrayList<Double>> income,
                           String category, Double proceeds) {
 
         if (income.containsKey(category)) {
@@ -29,7 +30,7 @@ public class Main {
         }
     }
 
-    public void printSummary(HashMap<String, ArrayList<Double>> income,
+    public static void printSummary(HashMap<String, ArrayList<Double>> income,
                              HashMap<String, ArrayList<Double>> expenses) {
 
         double totalIncome = 0;
@@ -73,7 +74,51 @@ public class Main {
 
         HashMap<String, ArrayList<Double>> income = new HashMap<>();
         HashMap<String, ArrayList<Double>> expenses = new HashMap<>();
+        Scanner scanner = new Scanner(System.in);
 
+        while (true) {
+            System.out.println("What would like you do? Please, press number: " +
+                    "\n1. Add Expenses" +
+                    "\n2. Add Income" +
+                    "\n3. Show summary" +
+                    "\n4. Exit");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+
+                case 1: {
+                    System.out.println("Enter a category of expense: ");
+                    String category = scanner.next();
+                    System.out.println("Enter a amount of expense:  ");
+                    double amount = scanner.nextDouble();
+
+                    addExpenses(expenses, category, amount);
+                    break;
+                }
+
+                case 2: {
+                    System.out.println("Enter a category of income: ");
+                    String category = scanner.next();
+                    System.out.println("Enter a amount of income: ");
+                    double amount = scanner.nextDouble();
+
+                    addIncome(income, category, amount);
+                    break;
+                }
+
+                case 3: {
+                    System.out.println("Your summary: ");
+                    printSummary(income, expenses);
+                    break;
+                }
+
+                default:
+                    System.out.println("Ending of program");
+                    System.exit(0);
+            }
+
+        }
 
     }
 }
