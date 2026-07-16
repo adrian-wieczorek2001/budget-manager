@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Main {
@@ -89,21 +86,35 @@ public class Main {
 
                 case 1: {
                     System.out.println("Enter a category of expense: ");
-                    String category = scanner.next();
+                    String category = scanner.next().toLowerCase();
                     System.out.println("Enter a amount of expense:  ");
-                    double amount = scanner.nextDouble();
-
-                    addExpenses(expenses, category, amount);
+                    while (true) {
+                        try {
+                            double amount = scanner.nextDouble();
+                            addExpenses(expenses, category, amount);
+                            break;
+                        } catch (InputMismatchException e) {
+                            System.out.println("Wrong type! Please enter a number!");
+                            scanner.nextLine();
+                        }
+                    }
                     break;
                 }
 
                 case 2: {
                     System.out.println("Enter a category of income: ");
-                    String category = scanner.next();
+                    String category = scanner.next().toLowerCase();
                     System.out.println("Enter a amount of income: ");
-                    double amount = scanner.nextDouble();
-
-                    addIncome(income, category, amount);
+                    while (true) {
+                        try {
+                            double amount = scanner.nextDouble();
+                            addIncome(income, category, amount);
+                            break;
+                        } catch (InputMismatchException e) {
+                            System.out.println("Wrong type! Please enter a number!");
+                            scanner.nextLine();
+                        }
+                    }
                     break;
                 }
 
