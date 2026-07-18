@@ -7,10 +7,11 @@ public class Main {
                                HashMap<String, ArrayList<Double>> expenses, Scanner scanner) {
         while (true) {
             System.out.println("What would like you do? Please, press number: " +
-                    "\n1. Add Expenses" +
+                    "\n1. Add Expense" +
                     "\n2. Add Income" +
-                    "\n3. Show summary" +
-                    "\n4. Exit");
+                    "\n3. Remove Expense" +
+                    "\n4. Show summary" +
+                    "\n5. Exit");
 
             int choice = scanner.nextInt();
 
@@ -33,30 +34,56 @@ public class Main {
                 }
 
                 case 3: {
+
+                    System.out.println("Which category of expenses do you want to edit: ");
+                    scanner.nextLine();
+                    String category = scanner.nextLine();
+
+                    printExpenses(expenses, category);
+
+                    System.out.println("Which expense do you want to delete: ");
+                    int index = scanner.nextInt();
+
+                    removeExpenses(expenses, category, index);
+                    break;
+                }
+
+                case 4: {
                     System.out.println("Your summary: ");
                     printSummary(income, expenses);
                     break;
                 }
 
-                default:
+                case 5:
                     System.out.println("Ending of program");
                     System.exit(0);
+
+                default:
+                    System.out.println("Invalid option. Please try again.");
             }
         }
     }
 
     public static double getAmountFromUser(Scanner scanner, String message) {
 
+        double amount = 0d;
+
         System.out.println(message);
-        while (true) {
+        while (amount == 0) {
             try {
-                double amount = scanner.nextDouble();
-                return amount;
+                amount = scanner.nextDouble();
+                break;
             } catch (InputMismatchException e) {
                 System.out.println("Wrong type! Please enter a number!");
                 scanner.nextLine();
             }
         }
+        return amount;
+    }
+
+    public static void removeExpenses(HashMap<String, ArrayList<Double>> expenses,
+                                      String category, int index) {
+        expenses.get(category).remove(index - 1);
     }
 
     public static void addExpenses(HashMap<String, ArrayList<Double>> expenses,
@@ -68,6 +95,13 @@ public class Main {
             ArrayList<Double> newCategory = new ArrayList<>();
             expenses.put(category, newCategory);
             newCategory.add(cost);
+        }
+    }
+
+    public static void printExpenses(HashMap<String, ArrayList<Double>> expenses, String category) {
+        System.out.println(category + ":");
+        for (int i = 0; i < expenses.get(category).size(); i++) {
+            System.out.println((i + 1) + ". " + expenses.get(category).get(i));
         }
     }
 
