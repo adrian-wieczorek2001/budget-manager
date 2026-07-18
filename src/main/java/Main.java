@@ -6,14 +6,29 @@ public class Main {
     public static void runMenu(HashMap<String, ArrayList<Double>> income,
                                HashMap<String, ArrayList<Double>> expenses, Scanner scanner) {
         while (true) {
-            System.out.println("What would like you do? Please, press number: " +
-                    "\n1. Add Expense" +
-                    "\n2. Add Income" +
-                    "\n3. Remove Expense" +
-                    "\n4. Show summary" +
-                    "\n5. Exit");
 
-            int choice = scanner.nextInt();
+            int choice = -1;
+            scanner.nextLine();
+
+            while (choice <= 0 || choice > 5) {
+                try {
+                    System.out.println("What would like you do? Please, press number: " +
+                            "\n1. Add Expense" +
+                            "\n2. Add Income" +
+                            "\n3. Remove Expense" +
+                            "\n4. Show summary" +
+                            "\n5. Exit");
+
+                    choice = scanner.nextInt();
+
+                    if (choice > 5 || choice <= 0) {
+                        System.out.println("Invalid option. Please, enter action (1-5): ");
+                    }
+
+                } catch (InputMismatchException e) {
+                    System.out.println("Incorrect number of option! Please, try again.");
+                }
+            }
 
             switch (choice) {
 
