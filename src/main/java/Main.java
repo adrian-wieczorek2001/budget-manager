@@ -49,6 +49,8 @@ public class Main {
 
                 case 3: {
 
+                    printCategories(expenses);
+
                     String category = getCategoryFromUser(scanner, "Enter a expense category: ");
                     if (!expenses.containsKey(category)) {
                         System.out.println("Category does not exist.");
@@ -57,9 +59,20 @@ public class Main {
 
                     printExpenses(expenses, category);
 
-                    System.out.println("Which expense do you want to delete: ");
-                    int index = scanner.nextInt();
+                    int index = -1;
 
+                    while (true) {
+                        try {
+                            System.out.println("Which expense do you want to delete: ");
+                            index = scanner.nextInt();
+                            if (index < 1 || index > expenses.get(category).size()) {
+                                System.out.println("Index out of range. Please, try again.");
+                            } else { break; }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Please, enter a correct index");
+                            scanner.nextLine();
+                        }
+                    }
                     removeExpenses(expenses, category, index);
                     break;
                 }
@@ -115,6 +128,15 @@ public class Main {
             }
         }
         return amount;
+    }
+
+    public static void printCategories(HashMap<String, ArrayList<Double>> categories) {
+
+        int i = 1;
+
+        for (String key : categories.keySet()) {
+            System.out.println(i++ + " " + key);
+        }
     }
 
     public static void removeExpenses(HashMap<String, ArrayList<Double>> expenses,
