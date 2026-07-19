@@ -8,7 +8,6 @@ public class Main {
         while (true) {
 
             int choice = -1;
-            scanner.nextLine();
 
             while (choice <= 0 || choice > 5) {
                 try {
@@ -20,6 +19,7 @@ public class Main {
                             "\n5. Exit");
 
                     choice = scanner.nextInt();
+                    scanner.nextLine();
 
                     if (choice > 5 || choice <= 0) {
                         System.out.println("Invalid option. Please, enter action (1-5): ");
@@ -27,22 +27,21 @@ public class Main {
 
                 } catch (InputMismatchException e) {
                     System.out.println("Incorrect number of option! Please, try again.");
+                    scanner.nextLine();
                 }
             }
 
             switch (choice) {
 
                 case 1: {
-                    System.out.println("Enter a category of expense: ");
-                    String category = scanner.next().toLowerCase();
+                    String category = getCategoryFromUser(scanner, "Enter a category of expense:");
                     double amount = getAmountFromUser(scanner, "Enter a amount of expense:  ");
                     addExpenses(expenses, category, amount);
                     break;
                 }
 
                 case 2: {
-                    System.out.println("Enter a category of income: ");
-                    String category = scanner.next().toLowerCase();
+                    String category = getCategoryFromUser(scanner, "Enter a income category: ");
                     double amount = getAmountFromUser(scanner, "Enter a amount of income:  ");
                     addIncome(income, category, amount);
                     break;
@@ -50,9 +49,11 @@ public class Main {
 
                 case 3: {
 
-                    System.out.println("Which category of expenses do you want to edit: ");
-                    scanner.nextLine();
-                    String category = scanner.nextLine();
+                    String category = getCategoryFromUser(scanner, "Enter a expense category: ");
+                    if (!expenses.containsKey(category)) {
+                        System.out.println("Category does not exist.");
+                        break;
+                    }
 
                     printExpenses(expenses, category);
 
@@ -71,12 +72,32 @@ public class Main {
 
                 case 5:
                     System.out.println("Ending of program");
+                    scanner.close();
                     System.exit(0);
 
                 default:
                     System.out.println("Invalid option. Please try again.");
             }
         }
+    }
+
+    public static String getCategoryFromUser(Scanner scanner, String message) {
+
+        while (true) {
+            System.out.println(message);
+
+            String category = scanner.next();
+
+            if (!isValidCategory(category)) {
+                System.out.println("Invalid category name.");
+            } else {
+                return category.toUpperCase();
+            }
+        }
+    }
+
+    public static boolean isValidCategory(String category) {
+        return category.matches("[a-zA-Z .]+");
     }
 
     public static double getAmountFromUser(Scanner scanner, String message) {
