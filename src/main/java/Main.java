@@ -37,14 +37,14 @@ public class Main {
                 case 1: {
                     String category = getCategoryFromUser(scanner, "Enter a category of expense:");
                     double amount = getAmountFromUser(scanner, "Enter a amount of expense:  ");
-                    addExpenses(expenses, category, amount);
+                    addEntry(expenses, category, amount);
                     break;
                 }
 
                 case 2: {
                     String category = getCategoryFromUser(scanner, "Enter a income category: ");
                     double amount = getAmountFromUser(scanner, "Enter a amount of income:  ");
-                    addIncome(income, category, amount);
+                    addEntry(income, category, amount);
                     break;
                 }
 
@@ -106,6 +106,7 @@ public class Main {
                     }
 
                     removeEntry(income, category, index);
+                    break;
                 }
 
                 case 5: {
@@ -189,18 +190,6 @@ public class Main {
         entry.get(category).remove(index - 1);
     }
 
-    public static void addExpenses(HashMap<String, ArrayList<Double>> expenses,
-                            String category, Double cost) {
-
-        if (expenses.containsKey(category)) {
-            expenses.get(category).add(cost);
-        } else {
-            ArrayList<Double> newCategory = new ArrayList<>();
-            expenses.put(category, newCategory);
-            newCategory.add(cost);
-        }
-    }
-
     public static void printEntry(HashMap<String, ArrayList<Double>> entry, String category) {
         System.out.println(category + ":");
         for (int i = 0; i < entry.get(category).size(); i++) {
@@ -208,14 +197,14 @@ public class Main {
         }
     }
 
-    public static void addIncome(HashMap<String, ArrayList<Double>> income,
+    public static void addEntry(HashMap<String, ArrayList<Double>> entry,
                           String category, Double proceeds) {
 
-        if (income.containsKey(category)) {
-            income.get(category).add(proceeds);
+        if (entry.containsKey(category)) {
+            entry.get(category).add(proceeds);
         } else {
             ArrayList<Double> newCategory = new ArrayList<>();
-            income.put(category, newCategory);
+            entry.put(category, newCategory);
             newCategory.add(proceeds);
         }
     }
