@@ -109,6 +109,9 @@ public class Main {
                 }
 
                 case 5: {
+
+                    System.out.println("All categories: expenses and incomes: ");
+                    printAllCategories(income, expenses);
                     System.out.println("Your summary: ");
                     printSummary(income, expenses);
                     break;
@@ -125,6 +128,16 @@ public class Main {
         }
     }
 
+    public static void printAllCategories(HashMap<String, ArrayList<Double>> map1,
+                                              HashMap<String, ArrayList<Double>> map2) {
+        HashSet<String> allCategories = new HashSet<>();
+        allCategories.addAll(map1.keySet());
+        allCategories.addAll(map2.keySet());
+        for (String category : allCategories) {
+            System.out.println(category);
+        }
+    }
+
     public static String getCategoryFromUser(Scanner scanner, String message) {
 
         while (true) {
@@ -135,7 +148,7 @@ public class Main {
             if (!isValidCategory(category)) {
                 System.out.println("Invalid category name.");
             } else {
-                return category.toUpperCase();
+                return category.toUpperCase().strip();
             }
         }
     }
