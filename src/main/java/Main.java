@@ -15,8 +15,9 @@ public class Main {
                             "\n1. Add Expense" +
                             "\n2. Add Income" +
                             "\n3. Remove Expense" +
-                            "\n4. Show summary" +
-                            "\n5. Exit");
+                            "\n4. Remove Income" +
+                            "\n5. Show summary" +
+                            "\n6. Exit");
 
                     choice = scanner.nextInt();
                     scanner.nextLine();
@@ -57,7 +58,7 @@ public class Main {
                         break;
                     }
 
-                    printExpenses(expenses, category);
+                    printEntry(expenses, category);
 
                     int index = -1;
 
@@ -73,17 +74,47 @@ public class Main {
                             scanner.nextLine();
                         }
                     }
-                    removeExpenses(expenses, category, index);
+                    removeEntry(expenses, category, index);
                     break;
                 }
 
                 case 4: {
+
+                    printCategories(income);
+
+                    String category = getCategoryFromUser(scanner, "Enter a income category: ");
+                    if (!income.containsKey(category)) {
+                        System.out.println("Category does not exist.");
+                        break;
+                    }
+
+                    printEntry(income, category);
+
+                    int index = -1;
+
+                    while (true) {
+                        try {
+                            System.out.println("Which income do you want to delete: ");
+                            index = scanner.nextInt();
+                            if (index < 1 || index > income.get(category).size()) {
+                                System.out.println("Index out of range. Please, try again.");
+                            } else { break; }
+                        } catch (InputMismatchException e) {
+                            System.out.println("Please, enter a correct index");
+                            scanner.nextLine();
+                        }
+                    }
+
+                    removeEntry(income, category, index);
+                }
+
+                case 5: {
                     System.out.println("Your summary: ");
                     printSummary(income, expenses);
                     break;
                 }
 
-                case 5:
+                case 6:
                     System.out.println("Ending of program");
                     scanner.close();
                     System.exit(0);
@@ -139,9 +170,10 @@ public class Main {
         }
     }
 
-    public static void removeExpenses(HashMap<String, ArrayList<Double>> expenses,
+    public static void removeEntry(HashMap<String, ArrayList<Double>> entry,
                                       String category, int index) {
-        expenses.get(category).remove(index - 1);
+
+        entry.get(category).remove(index - 1);
     }
 
     public static void addExpenses(HashMap<String, ArrayList<Double>> expenses,
@@ -156,10 +188,10 @@ public class Main {
         }
     }
 
-    public static void printExpenses(HashMap<String, ArrayList<Double>> expenses, String category) {
+    public static void printEntry(HashMap<String, ArrayList<Double>> entry, String category) {
         System.out.println(category + ":");
-        for (int i = 0; i < expenses.get(category).size(); i++) {
-            System.out.println((i + 1) + ". " + expenses.get(category).get(i));
+        for (int i = 0; i < entry.get(category).size(); i++) {
+            System.out.println((i + 1) + ". " + entry.get(category).get(i));
         }
     }
 
